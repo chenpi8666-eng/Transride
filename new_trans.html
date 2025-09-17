@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transride Voyager – 未来机器人平台</title>
+  <meta name="description" content="Transride Voyager 未来变形机器人平台：出行 · 服务 · 巡检 · 陪护" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/chenpi8666-eng/Transride/main/logo.png" />
+  <link rel="preload" as="video" href="trans.mp4" />
+  <style>
+    :root {
+      --bg-dark: #05010d;
+      --bg-gradient: radial-gradient(circle at 30% 20%, #261047 0%, #0d041d 55%, #06020f 100%);
+      --glass-bg: rgba(20, 0, 42, 0.55);
+      --glass-border: rgba(255,255,255,0.08);
+      --pink: #ff3fa8;
+      --cyan: #00d5ff;
+      --orange: #ff6b35;
+      --font-light: #cccccc;
+      --font-dim: #8888aa;
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg-gradient); color: #fff; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display:block; }
+    a { color: var(--cyan); text-decoration:none; }
+    a:hover { text-shadow:0 0 8px var(--cyan); }
+    h1,h2,h3,h4 { font-weight:600; letter-spacing: .5px; }
+
+    /* Scrollbar subtle */
+    ::-webkit-scrollbar { width:10px; }
+    ::-webkit-scrollbar-track { background:#0b0615; }
+    ::-webkit-scrollbar-thumb { background:linear-gradient(var(--pink), var(--cyan)); border-radius:6px; }
+
+    /* Navigation */
+    .nav { position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:10px 40px; backdrop-filter:blur(14px); background:rgba(10,3,25,.35); border-bottom:1px solid var(--glass-border); }
+  .nav .brand { display:flex; align-items:center; gap:12px; font-size:20px; font-weight:600; background:linear-gradient(90deg,var(--pink),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .nav img { width:44px; height:44px; object-fit:contain; border-radius:10px; box-shadow:0 0 0 2px rgba(255,255,255,.08); background:#120820; }
+    .nav-links { display:flex; gap:32px; font-size:14px; letter-spacing:.5px; }
+    .nav-links a { position:relative; padding:6px 4px; color:#e6e3f5; }
+    .nav-links a:after { content:""; position:absolute; left:0; bottom:0; width:0; height:2px; background:linear-gradient(90deg,var(--pink),var(--cyan)); transition:.4s; border-radius:2px; }
+    .nav-links a:hover:after { width:100%; }
+
+    /* Hero */
+    .hero { position:relative; min-height:100vh; display:flex; justify-content:center; align-items:center; overflow:hidden; }
+    .hero video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.55) saturate(1.2); opacity:.9; transform:scale(1.1); }
+    .hero:before { content:""; position:absolute; inset:0; background:linear-gradient(160deg,rgba(10,2,25,.9) 10%, rgba(30,8,60,.6) 45%, rgba(5,1,15,.92) 85%); pointer-events:none; }
+    .hero-layer { position:relative; width:100%; padding:140px 40px 80px; max-width:1400px; }
+    .tagline-wrap { max-width:960px; margin:0 auto; text-align:center; }
+  .main-title { font-size:clamp(56px,11vw,130px); line-height:1; margin:0 0 12px; font-weight:700; background:linear-gradient(90deg,var(--pink) 0%, #ff77d6 30%, var(--cyan) 75%); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:4px; text-shadow:0 0 25px rgba(255,63,168,.35); }
+    .subtitle { font-size:clamp(24px,3.5vw,44px); font-weight:400; letter-spacing:2px; margin:0 0 40px; color:#f0eef9; }
+    .hero-line { font-size:22px; font-weight:300; color:var(--font-light); margin:0 auto 60px; line-height:1.65; }
+    .glass-card { background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:22px; padding:42px 56px; backdrop-filter:blur(18px) saturate(160%); box-shadow:0 10px 40px -10px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.05); position:relative; }
+    .floating { animation: float 8s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform:translateY(-8px);} 50% { transform:translateY(8px);} }
+
+    /* Section base */
+    section { padding:120px 50px; position:relative; }
+    .section-narrow { max-width:1280px; margin:0 auto; }
+  .section-title { font-size:54px; margin:0 0 70px; font-weight:600; background:linear-gradient(90deg,var(--pink),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; text-align:center; }
+
+    /* Problems split */
+    .split { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:40px; align-items:start; }
+    .problem-contrast { display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:42px; margin-top:60px; }
+    .card { background:var(--glass-bg); border:1px solid var(--glass-border); padding:32px 34px; border-radius:24px; backdrop-filter:blur(14px) saturate(160%); position:relative; overflow:hidden; transition:.5s; }
+    .card:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 15%, rgba(255,63,168,.15), transparent 60%); opacity:.65; pointer-events:none; }
+    .card:hover { transform:translateY(-6px); box-shadow:0 12px 50px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08); }
+    .muted { color:var(--font-dim); font-size:14px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+
+    /* Solution panels */
+    .panels { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:40px; }
+    .panel { position:relative; border-radius:26px; overflow:hidden; background:linear-gradient(135deg,#140a24,#0c0318); border:1px solid rgba(255,255,255,.08); padding:30px 30px 110px; min-height:360px; box-shadow:0 0 0 1px rgba(255,255,255,.05); transition:.6s; }
+    .panel:hover { transform:translateY(-8px) scale(1.02); box-shadow:0 18px 70px -18px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.12); }
+  .panel h3 { font-size:26px; margin:0 0 18px; background:linear-gradient(90deg,var(--pink),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .panel small { position:absolute; left:30px; bottom:34px; font-size:13px; letter-spacing:1px; color:var(--font-dim); }
+
+    /* Tech radial simplified */
+    .radial { position:relative; width:100%; max-width:980px; margin:40px auto 0; aspect-ratio:1/1; }
+    .radial-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:200px; height:200px; border-radius:50%; background:linear-gradient(140deg,#27123f,#12051f); border:1px solid rgba(255,255,255,.12); display:flex; align-items:center; justify-content:center; text-align:center; font-size:18px; line-height:1.4; padding:18px; box-shadow:0 0 0 1px rgba(255,255,255,.05), 0 0 45px -10px rgba(0,213,255,.4); }
+    .branch { position:absolute; width:150px; height:150px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; padding:18px; text-align:center; background:linear-gradient(160deg,rgba(255,63,168,.15),rgba(0,213,255,.15)); border:1px solid rgba(255,255,255,.1); backdrop-filter:blur(10px); box-shadow:0 0 0 1px rgba(255,255,255,.04); }
+    .branch:after { content:""; position:absolute; width:2px; background:linear-gradient(var(--pink),var(--cyan)); top:50%; left:50%; transform-origin:top; animation: pulse 4s linear infinite; }
+    @keyframes pulse { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+
+    /* B2B value */
+    .b2b-toggle { display:flex; gap:16px; justify-content:center; margin-bottom:40px; }
+    .toggle-btn { padding:10px 26px; border-radius:40px; font-size:14px; letter-spacing:1px; border:1px solid var(--glass-border); background:rgba(255,255,255,.05); cursor:pointer; color:#eee; backdrop-filter:blur(10px); transition:.4s; }
+    .toggle-btn.active, .toggle-btn:hover { background:linear-gradient(90deg,var(--pink),var(--cyan)); color:#121018; font-weight:600; }
+    .b2b-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:38px; }
+    .stats { display:flex; gap:30px; justify-content:center; margin-top:50px; flex-wrap:wrap; }
+    .stat { min-width:180px; text-align:center; padding:20px 24px; background:linear-gradient(140deg,#170a2b,#0a0318); border:1px solid rgba(255,255,255,.08); border-radius:20px; }
+  .stat h4 { margin:0; font-size:34px; background:linear-gradient(90deg,var(--pink),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .stat p { margin:6px 0 0; font-size:13px; letter-spacing:1px; color:var(--font-dim); }
+
+    /* Generic reveal */
+    [data-reveal] { opacity:0; transform:translateY(40px); transition:1s cubic-bezier(.22,.84,.28,1); }
+    [data-reveal].visible { opacity:1; transform:none; }
+
+    /* Contact / Footer */
+    .contact { text-align:center; max-width:900px; margin:0 auto; }
+    .contact h2 { font-size:46px; margin:0 0 40px; background:linear-gradient(90deg,var(--pink),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    @media (prefers-reduced-motion: reduce) {
+      .floating { animation:none; }
+      [data-reveal] { opacity:1 !important; transform:none !important; transition:none !important; }
+      .panel:hover, .card:hover { transform:none; }
+      .hero video { transform:none; }
+    }
+    .footer { padding:80px 50px 60px; text-align:center; font-size:14px; color:var(--font-dim); }
+    .footer small { display:block; margin-top:12px; letter-spacing:1px; }
+
+    @media (max-width:960px) {
+      .hero-layer { padding:140px 28px 70px; }
+      section { padding:100px 28px; }
+      .section-title { font-size:44px; }
+      .glass-card { padding:38px 40px; }
+      .nav { padding:8px 18px; }
+      .nav-links { display:none; }
+      .panel { min-height:320px; }
+      .radial { aspect-ratio:auto; height:640px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+  <div class="brand"><img src="https://raw.githubusercontent.com/chenpi8666-eng/Transride/main/logo.png" alt="Transride Logo" />Transride</div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#hero" data-i18n="nav.home">首页</a>
+      <a href="#problems" data-i18n="nav.problems">痛点</a>
+      <a href="#solution" data-i18n="nav.solution">方案</a>
+      <a href="#tech" data-i18n="nav.tech">技术</a>
+      <a href="#b2b" data-i18n="nav.b2b">B端价值</a>
+      <a href="#roadmap" data-i18n="nav.roadmap">路线</a>
+      <a href="#funding" data-i18n="nav.funding">融资</a>
+      <a href="#vision" data-i18n="nav.vision">愿景</a>
+      <a href="#contact" data-i18n="nav.contact">联系</a>
+      <button id="langToggle" type="button" style="background:linear-gradient(90deg,var(--pink),var(--cyan)); color:#120c1c; font-weight:600; border:none; border-radius:18px; padding:6px 14px; cursor:pointer; font-size:12px; letter-spacing:1px;">EN</button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero" class="hero">
+  <video src="trans.mp4" autoplay muted playsinline loop></video>
+    <div class="hero-layer" data-reveal>
+      <div class="tagline-wrap">
+        <h1 class="main-title" data-i18n="hero.title">星航</h1>
+        <h2 class="subtitle" data-i18n="hero.subtitle">Voyager</h2>
+        <p class="hero-line" data-i18n="hero.tagline">从移动到陪伴，重塑机器人的边界</p>
+        <div class="glass-card floating" style="margin:0 auto; max-width:760px;" data-i18n-html="hero.blurb">
+          <p style="margin:0; font-size:16px; line-height:1.7; color:var(--font-light)">全球首个融合出行 · 服务 · 娱乐 (C端) 与 巡检 · 操作 (B端) 的变形机器人通用平台。<br/>一台机器，打破多设备割裂体验。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problems -->
+  <section id="problems">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="problems.title">我们要解决的核心断层</h2>
+      <div class="problem-contrast">
+        <div class="card" data-reveal>
+          <div class="muted" data-i18n="problems.p1.label">痛点 01</div>
+          <h3 data-i18n="problems.p1.title">城市效率与体验崩塌</h3>
+          <p style="line-height:1.6; color:var(--font-light)" data-i18n="problems.p1.desc">“最后一公里”工具单一 & 闲置率高。空间被占用，使用频率却极低。</p>
+          <p style="margin-top:14px; font-size:14px; color:var(--font-dim)" data-i18n="problems.p1.tip">→ 需要一台高复用度、全天候在线的移动+服务一体化终端。</p>
+        </div>
+        <div class="card" data-reveal>
+          <div class="muted" data-i18n="problems.p2.label">痛点 02</div>
+          <h3 data-i18n="problems.p2.title">服务机器人功能孤岛</h3>
+          <p style="line-height:1.6; color:var(--font-light)" data-i18n="problems.p2.desc">扫地 / 导览 / 看护 分裂存在，数据与能力不互通，用户体验割裂。</p>
+          <p style="margin-top:14px; font-size:14px; color:var(--font-dim)" data-i18n="problems.p2.tip">→ 需要“出行+操作+交互”融合的多模态自主体。</p>
+        </div>
+        <div class="card" data-reveal>
+          <div class="muted" data-i18n="problems.p3.label">痛点 03</div>
+          <h3 data-i18n="problems.p3.title">全球老龄化照护危机</h3>
+          <p style="line-height:1.6; color:var(--font-light)" data-i18n="problems.p3.desc">劳动力紧缺 & 陪护成本上升，现有“语音陪伴”缺少物理交互能力。</p>
+          <p style="margin-top:14px; font-size:14px; color:var(--font-dim)" data-i18n="problems.p3.tip">→ 需要能“伸出手”提供实际支持的 AI 物理代理。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section id="solution">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="solution.title">三位一体 · 场景化能力矩阵</h2>
+      <div class="panels">
+        <div class="panel" data-reveal>
+          <h3 data-i18n="solution.p1.title">驾驶模式</h3>
+          <p style="line-height:1.55; color:var(--font-light)" data-i18n="solution.p1.desc">高性能与日常通勤兼容的紧凑平台，覆盖城市出行+户外巡航。</p>
+          <small data-i18n="solution.p1.meta">续航潜力 300km*</small>
+        </div>
+        <div class="panel" data-reveal>
+          <h3 data-i18n="solution.p2.title">变形瞬间</h3>
+          <p style="line-height:1.55; color:var(--font-light)" data-i18n="solution.p2.desc">从轮式高效切换到人形精细操作，一机跨域执行任务。</p>
+          <small data-i18n="solution.p2.meta">切换响应 &lt; 3s*</small>
+        </div>
+        <div class="panel" data-reveal>
+          <h3 data-i18n="solution.p3.title">服务/陪护</h3>
+          <p style="line-height:1.55; color:var(--font-light)" data-i18n="solution.p3.desc">家庭协助 · 递取物 · 情感交互 · 安全检测，使用频次倍增。</p>
+          <small data-i18n="solution.p3.meta">操作精度 ±1mm*</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology -->
+  <section id="tech">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="tech.title">多层协同 · 技术基座</h2>
+      <div class="radial" data-reveal>
+        <div class="radial-center">双模态<br/>自适应本体</div>
+        <div class="branch" style="top:4%; left:50%; transform:translate(-50%,0);">Dual-Mode<br/>Chassis</div>
+        <div class="branch" style="bottom:4%; left:50%; transform:translate(-50%,0);">Adaptive<br/>Joint System</div>
+        <div class="branch" style="top:50%; left:4%; transform:translate(0,-50%);">Emotional<br/>Interaction AI</div>
+        <div class="branch" style="top:50%; right:4%; transform:translate(0,-50%);">Autonomous<br/>Navigation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B2B Value -->
+  <section id="b2b">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="b2b.title">B 端价值 · 一机替多机</h2>
+      <div class="b2b-toggle">
+        <button class="toggle-btn active" data-mode="legacy">传统方案</button>
+        <button class="toggle-btn" data-mode="voyager">Voyager 方案</button>
+      </div>
+      <div class="b2b-grid" id="b2bGrid">
+        <div class="card" data-reveal>
+          <div class="muted">传统流程</div>
+          <h3>多设备协同成本高</h3>
+          <p style="line-height:1.6; color:var(--font-light)">轮式巡检+人形执行+临时值守，调度复杂、总拥有成本高。</p>
+        </div>
+        <div class="card" data-reveal>
+          <div class="muted">运维痛点</div>
+          <h3>空转 / 等待时间</h3>
+          <p style="line-height:1.6; color:var(--font-light)">巡检和操作无法同体连续执行，效率被割裂。</p>
+        </div>
+        <div class="card" data-reveal>
+          <div class="muted">安全风险</div>
+          <h3>人工介入频繁</h3>
+          <p style="line-height:1.6; color:var(--font-light)">高温/高压/夜间场景仍需人员到场。</p>
+        </div>
+      </div>
+      <div class="stats" data-reveal>
+        <div class="stat"><h4>60%</h4><p>效率提升*</p></div>
+        <div class="stat"><h4>80%</h4><p>人力节省*</p></div>
+        <div class="stat"><h4>50%</h4><p>运维成本下降*</p></div>
+        <div class="stat"><h4>3x</h4><p>使用频次*</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap / Funding / Vision reuse (简化占位，可继续扩展) -->
+  <section id="roadmap">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="roadmap.title">路线图</h2>
+      <div class="split">
+        <div class="card"><h3>2025</h3><p style="color:var(--font-light)">功能原型机完成与演示。</p></div>
+        <div class="card"><h3>2026</h3><p style="color:var(--font-light)">工程验证 & 试点合作 + 众筹准备。</p></div>
+        <div class="card"><h3>2027</h3><p style="color:var(--font-light)">量产交付 & 国际化市场开拓。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="funding">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="funding.title">融资计划</h2>
+      <div class="split">
+        <div class="card"><h3>目标</h3><p style="color:var(--font-light)">天使轮 200万美元 出让 10–15%</p></div>
+        <div class="card"><h3>用途</h3><p style="color:var(--font-light)">团队扩建 / 原型迭代 / 专利布局 / 市场启动</p></div>
+        <div class="card"><h3>里程碑</h3><p style="color:var(--font-light)">可公开动态演示的变形+交互原型。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vision">
+    <div class="section-narrow" data-reveal>
+  <h2 class="section-title" data-i18n="vision.title">愿景</h2>
+      <div class="glass-card" style="margin:0 auto; max-width:940px;">
+        <p style="font-size:22px; line-height:1.7; font-weight:300; color:var(--font-light); text-align:center">我们不只是造一台机器，而是在塑造一个“可变形 · 高使用频次 · 深度陪伴”的全新物种，
+          它将成为连接物理世界与数字智能的下一代终端。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact moved to bottom -->
+  <section id="contact">
+    <div class="section-narrow contact" data-reveal>
+  <h2 data-i18n="contact.title">联系与对接</h2>
+      <div class="glass-card" style="max-width:720px; margin:0 auto;">
+  <p style="font-size:18px; line-height:1.8; color:var(--font-light);" data-i18n-html="contact.body">公司名称：Transride Robotics<br/>联系人：_________<br/>联系方式：_________<br/>邮箱：<a href="mailto:contact@transride.ai">contact@transride.ai</a></p>
+  <p style="margin-top:24px; font-size:12px; letter-spacing:1px; color:var(--font-dim);" data-i18n="contact.disclaimer">* 页面中标注数据为内部规划/目标值示意，用于展示潜在能力，不构成对外正式承诺。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div style="background:linear-gradient(90deg,var(--pink),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; font-size:18px;" data-i18n="footer.brand">Transride Voyager</div>
+    <small>© 2025 Transride Robotics. All Rights Reserved.</small>
+  </footer>
+
+  <script>
+    // i18n dictionaries
+    const I18N = {
+      zh: {
+        nav:{home:'首页',problems:'痛点',solution:'方案',tech:'技术',b2b:'B端价值',roadmap:'路线',funding:'融资',vision:'愿景',contact:'联系'},
+        hero:{title:'星航',subtitle:'Voyager',tagline:'从移动到陪伴，重塑机器人的边界',blurb:'全球首个融合出行 · 服务 · 娱乐 (C端) 与 巡检 · 操作 (B端) 的变形机器人通用平台。<br/>一台机器，打破多设备割裂体验。'},
+        problems:{title:'我们要解决的核心断层',p1:{label:'痛点 01',title:'城市效率与体验崩塌',desc:'“最后一公里”工具单一 & 闲置率高。空间被占用，使用频率却极低。',tip:'→ 需要一台高复用度、全天候在线的移动+服务一体化终端。'},p2:{label:'痛点 02',title:'服务机器人功能孤岛',desc:'扫地 / 导览 / 看护 分裂存在，数据与能力不互通，用户体验割裂。',tip:'→ 需要“出行+操作+交互”融合的多模态自主体。'},p3:{label:'痛点 03',title:'全球老龄化照护危机',desc:'劳动力紧缺 & 陪护成本上升，现有“语音陪伴”缺少物理交互能力。',tip:'→ 需要能“伸出手”提供实际支持的 AI 物理代理。'}},
+        solution:{title:'三位一体 · 场景化能力矩阵',p1:{title:'驾驶模式',desc:'高性能与日常通勤兼容的紧凑平台，覆盖城市出行+户外巡航。',meta:'续航潜力 300km*'},p2:{title:'变形瞬间',desc:'从轮式高效切换到人形精细操作，一机跨域执行任务。',meta:'切换响应 < 3s*'},p3:{title:'服务/陪护',desc:'家庭协助 · 递取物 · 情感交互 · 安全检测，使用频次倍增。',meta:'操作精度 ±1mm*'}},
+        tech:{title:'多层协同 · 技术基座'},
+        b2b:{title:'B 端价值 · 一机替多机'},
+        roadmap:{title:'路线图'},
+        funding:{title:'融资计划'},
+        vision:{title:'愿景'},
+        contact:{title:'联系与对接',body:'公司名称：Transride Robotics<br/>联系人：_________<br/>联系方式：_________<br/>邮箱：<a href="mailto:contact@transride.ai">contact@transride.ai</a>',disclaimer:'* 页面中标注数据为内部规划/目标值示意，用于展示潜在能力，不构成对外正式承诺。'},
+        footer:{brand:'Transride Voyager'}
+      },
+      en: {
+        nav:{home:'Home',problems:'Problems',solution:'Solution',tech:'Tech',b2b:'B2B Value',roadmap:'Roadmap',funding:'Funding',vision:'Vision',contact:'Contact'},
+        hero:{title:'Voyager',subtitle:'Transforming Platform',tagline:'From Mobility to Companionship – Redefining Robots',blurb:'The first transforming robotic platform unifying Mobility · Services · Entertainment (Consumer) and Inspection · Operation (Enterprise).<br/>One machine replaces fragmented devices.'},
+        problems:{title:'Core Gaps We Solve',p1:{label:'Pain 01',title:'Urban Efficiency Collapse',desc:'“Last-mile” tools are single‑purpose & under‑utilized; space consumed, value dormant.',tip:'→ Need a high‑reuse, always‑available mobile + service terminal.'},p2:{label:'Pain 02',title:'Isolated Robot Islands',desc:'Cleaning / guiding / companion devices are siloed—no shared capability.',tip:'→ Need a unified multimodal agent merging mobility + manipulation + interaction.'},p3:{label:'Pain 03',title:'Elder Care Crisis',desc:'Aging + labor shortage; voice tablets lack physical assistance.',tip:'→ Need an AI physical agent that can literally “lend a hand”.'}},
+        solution:{title:'Tri-Modal Scenario Capability',p1:{title:'Drive Mode',desc:'Compact platform for high‑performance commuting & urban / outdoor travel.',meta:'Range potential 300km*'},p2:{title:'Transformation',desc:'Seamless shift from efficient wheels to precise humanoid operation.',meta:'Switch time < 3s*'},p3:{title:'Service / Care',desc:'Home assist · object fetching · emotional interaction · safety sensing; usage frequency multiplies.',meta:'Operation precision ±1mm*'}},
+        tech:{title:'Layered Synergy · Tech Core'},
+        b2b:{title:'Enterprise Value · One Replaces Many'},
+        roadmap:{title:'Roadmap'},
+        funding:{title:'Funding Plan'},
+        vision:{title:'Vision'},
+        contact:{title:'Contact',body:'Company: Transride Robotics<br/>Contact: _________<br/>Phone / WeChat: _________<br/>Email: <a href="mailto:contact@transride.ai">contact@transride.ai</a>',disclaimer:'* Figures are internal targets for illustrative purposes only and not binding commitments.'},
+        footer:{brand:'Transride Voyager'}
+      }
+    };
+    // Detect initial language from URL (?lang=en / ?lang=zh) or browser
+    const urlParams = new URLSearchParams(location.search);
+    let initialLang = urlParams.get('lang');
+    if(!initialLang){
+      const navLang = (navigator.language || '').toLowerCase();
+      initialLang = navLang.startsWith('zh') ? 'zh' : 'zh'; // default to zh; keep English opt-in
+    }
+    let currentLang = (initialLang === 'en') ? 'en' : 'zh';
+    function applyI18n(lang){
+      const dict = I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const path = el.getAttribute('data-i18n').split('.');
+        let cur = dict; path.forEach(k=>{ if(cur) cur = cur[k]; });
+        if(typeof cur === 'string') el.textContent = cur;
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+        const path = el.getAttribute('data-i18n-html').split('.');
+        let cur = dict; path.forEach(k=>{ if(cur) cur = cur[k]; });
+        if(typeof cur === 'string') el.innerHTML = cur;
+      });
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      document.getElementById('langToggle').textContent = lang === 'zh' ? 'EN' : '中文';
+    }
+    document.getElementById('langToggle').addEventListener('click',()=>{ 
+      currentLang = currentLang==='zh'?'en':'zh'; 
+      // update URL without reload
+      const p = new URL(location.href);
+      p.searchParams.set('lang', currentLang);
+      history.replaceState({}, '', p.toString());
+      applyI18n(currentLang); 
+    });
+    applyI18n(currentLang);
+    // Reveal on scroll
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    // B2B toggle (static content swap)
+    const grid = document.getElementById('b2bGrid');
+    const btns = document.querySelectorAll('.toggle-btn');
+    const legacyHTML = grid.innerHTML;
+    const voyagerHTML = `
+      <div class="card" data-reveal><div class="muted">一体化</div><h3>巡检 + 操作合并</h3><p style="line-height:1.6; color:var(--font-light)">同一平台完成巡检→识别→操作闭环，减少调度。</p></div>
+      <div class="card" data-reveal><div class="muted">高使用频次</div><h3>多场景复用</h3><p style="line-height:1.6; color:var(--font-light)">日常运维 / 夜间安防 / 临时支持 一机覆盖。</p></div>
+      <div class="card" data-reveal><div class="muted">安全提升</div><h3>人机分界缩小</h3><p style="line-height:1.6; color:var(--font-light)">危险/疲劳工况替代人工，提高连续性。</p></div>`;
+    btns.forEach(b => b.addEventListener('click', () => {
+      btns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      grid.classList.remove('visible');
+      setTimeout(() => {
+        grid.innerHTML = b.dataset.mode === 'voyager' ? voyagerHTML : legacyHTML;
+        grid.querySelectorAll('.card').forEach(c => { c.classList.add('visible'); });
+      }, 120);
+    }));
+  </script>
+</body>
+</html>
