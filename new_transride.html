@@ -40,14 +40,15 @@
     .nav-links a:after { content:""; position:absolute; left:0; bottom:0; width:0; height:2px; background:linear-gradient(90deg,var(--pink),var(--cyan)); transition:.4s; border-radius:2px; }
     .nav-links a:hover:after { width:100%; }
 
-    /* Hero */
-    .hero { position:relative; min-height:100vh; display:flex; justify-content:center; align-items:center; overflow:hidden; }
+  /* Hero */
+  /* Remove overflow:hidden to avoid clipping text glow / descenders */
+  .hero { position:relative; min-height:100vh; display:flex; justify-content:center; align-items:center; overflow:visible; }
     .hero video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.55) saturate(1.2); opacity:.9; transform:scale(1.1); }
     .hero:before { content:""; position:absolute; inset:0; background:linear-gradient(160deg,rgba(10,2,25,.9) 10%, rgba(30,8,60,.6) 45%, rgba(5,1,15,.92) 85%); pointer-events:none; }
   html { scroll-padding-top:90px; }
   .hero-layer { position:relative; width:100%; padding:170px 40px 110px; max-width:1400px; }
     .tagline-wrap { max-width:960px; margin:0 auto; text-align:center; }
-  .main-title { font-size:clamp(56px,11vw,130px); line-height:1; margin:0 0 12px; font-weight:700; background:linear-gradient(90deg,var(--pink) 0%, #ff77d6 30%, var(--cyan) 75%); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:4px; text-shadow:0 0 25px rgba(255,63,168,.35); }
+  .main-title { font-size:clamp(56px,11vw,130px); line-height:1.1; margin:0 0 12px; font-weight:700; background:linear-gradient(90deg,var(--pink) 0%, #ff77d6 30%, var(--cyan) 75%); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:4px; text-shadow:0 0 25px rgba(255,63,168,.35); display:inline-block; padding-bottom:0.18em; }
     .subtitle { font-size:clamp(24px,3.5vw,44px); font-weight:400; letter-spacing:2px; margin:0 0 40px; color:#f0eef9; }
     .hero-line { font-size:22px; font-weight:300; color:var(--font-light); margin:0 auto 60px; line-height:1.65; }
     .glass-card { background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:22px; padding:42px 56px; backdrop-filter:blur(18px) saturate(160%); box-shadow:0 10px 40px -10px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.05); position:relative; }
